@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Praveen Saxena — Portfolio (Interactive Previews)</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#071026;
+    --card:#0f1724;
+    --muted:#9fb0c1;
+    --accent:#2b6ea3;
+    --glass: rgba(255,255,255,0.03);
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    background:linear-gradient(180deg,var(--bg),#021018 140%);
+    color:#e6eef6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+  .wrap{max-width:var(--maxw);margin:36px auto;padding:18px}
+  header{
+    position:fixed;left:0;right:0;top:12px;display:flex;justify-content:center;z-index:1200;pointer-events:none;
+  }
+  nav.navbar{pointer-events:auto;width:calc(var(--maxw) - 36px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:10px 14px;border-radius:12px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,0.55);backdrop-filter: blur(6px);}
+  .brand{font-weight:700;color:var(--accent)}
+  .nav-links{margin-left:auto; display:flex; gap:8px; align-items:center}
+  .nav-links a{color:var(--muted);padding:6px 10px;border-radius:8px;text-decoration:none;font-size:14px}
+  .nav-links a:hover{color:#fff;background:var(--glass)}
+
+  main{padding-top:84px}
+
+  /* HERO */
+  .hero{display:flex;gap:28px;align-items:center;padding:30px;border-radius:14px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02);box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+  .hero-left{flex:0 0 220px;text-align:center}
+  .photo{width:200px;height:200px;border-radius:50%;overflow:hidden;border:6px solid rgba(255,255,255,0.03);display:inline-block;box-shadow:0 14px 40px rgba(0,0,0,0.6)}
+  .photo img{width:100%;height:100%;object-fit:cover}
+  .hero-right{flex:1}
+  .hero-right h1{margin:0;font-size:34px}
+  .hero-right h2{margin:6px 0;color:var(--muted);font-weight:500}
+  .lead{color:var(--muted);margin-top:8px}
+
+  /* section */
+  section{margin-top:20px;padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00))}
+  .heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .heading h3{margin:0;color:var(--accent)}
+  .muted{color:var(--muted)}
+
+  /* grid */
+  .grid{display:grid;gap:14px}
+  .grid-2{grid-template-columns:1fr 360px}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .card{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02);box-shadow:0 6px 18px rgba(0,0,0,0.45)}
+  .card h4{margin:0 0 8px}
+  .card p{margin:0;color:var(--muted);font-size:14px}
+  .meta{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .chip{padding:6px 10px;border-radius:8px;background:var(--glass);font-size:13px;color:var(--muted);text-decoration:none}
+
+  /* preview tiles */
+  .preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .preview-tile{background:#071c2b;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);cursor:default}
+  .preview-thumb{width:100%;height:160px;object-fit:cover;border-radius:8px;background:#03131b;display:block}
+  .preview-title{margin:8px 0 6px;font-weight:700}
+  .preview-links{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{background:linear-gradient(90deg,var(--accent),#1b79b8);color:white;padding:8px 10px;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+  /* iframe preview (pdf / drive preview) */
+  .iframe-wrap{width:100%;height:220px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);background:#081420}
+  .iframe-wrap iframe{width:100%;height:100%;border:0}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;padding:20px;z-index:2000}
+  .modal.open{display:flex}
+  .modal .modal-content{max-width:1000px;width:100%;max-height:90vh;background:#04121a;border-radius:10px;padding:12px;overflow:auto}
+  .modal .modal-content img, .modal .modal-content iframe{width:100%;height:600px;object-fit:contain;border-radius:6px}
+
+  /* small */
+  @media (max-width:980px){ .grid-2{grid-template-columns:1fr} .hero{flex-direction:column;align-items:center;text-align:center} .hero-left{order:0} }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar" role="navigation" aria-label="Main nav">
+    <div class="brand">Praveen Saxena</div>
+    <div class="muted" style="margin-left:12px;font-size:13px">M.Tech — VLSI & Signal Processing • IIT Goa</div>
+    <div class="nav-links" role="menu" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#research">Research</a>
+      <a href="#certs">Certificates</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap" role="main">
+
+  <!-- HERO -->
+  <section class="hero" id="home" aria-labelledby="hero-title">
+    <div class="hero-left">
+      <div class="photo" title="Praveen Saxena — profile">
+        <img alt="Praveen Saxena photo" src="https://drive.google.com/uc?export=view&id=1bj64LtALgf_1jU8Vml1JdfHHq8jlWveE"
+             onerror="this.onerror=null; this.src='https://via.placeholder.com/400x400?text=Profile'">
+      </div>
+      <div style="margin-top:10px" class="muted">Prayagraj, Uttar Pradesh • +91 8805440924</div>
+    </div>
+
+    <div class="hero-right">
+      <h1 id="hero-title">Praveen Saxena</h1>
+      <h2>2<sup>nd</sup> Year, M.Tech — VLSI & Signal Processing</h2>
+      <div class="lead">Researcher in embedded systems, drones, biomedical sensors & VLSI. Master's thesis on Smart Periodontal Probe with embedded sensors.</div>
+      <div style="margin-top:12px">
+        <a class="btn" href="#projects">See Projects</a>
+        <a class="btn ghost" href="mailto:praveen.saxena9889@gmail.com">Email</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/praveen-s-3b6b53a1" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-h">
+    <div class="heading"><h3 id="about-h">About & Education</h3><div class="muted">Short bio + education</div></div>
+
+    <div class="grid grid-2">
+      <div>
+        <p>I am pursuing M.Tech in VLSI & Signal Processing at IIT Goa (2024—Present). I work on biomedical sensing systems, embedded firmware, analog/digital VLSI design, and drone/robotics. I have built multiple IoT and autonomous systems, and I enjoy bridging hardware and ML.</p>
+
+        <h4 style="margin-top:12px">Contact</h4>
+        <p class="muted">Email: <a href="mailto:praveen.saxena9889@gmail.com">praveen.saxena9889@gmail.com</a> • Phone: <a href="tel:+918805440924">+91 8805440924</a></p>
+
+        <h4 style="margin-top:12px">Skills</h4>
+        <div class="card">
+          <strong>Programming:</strong> VHDL, Verilog, Python, C/C++, Java, MATLAB<br>
+          <strong>Tools:</strong> Cadence, LTspice, Electric VLSI, Quartus, Arduino IDE<br>
+          <strong>Domains:</strong> VLSI Design, DSP, Embedded Systems, Biomedical Sensors, IoT Healthcare<br>
+          <strong>Cloud & ML:</strong> AWS, Google Cloud, Intel OpenVINO Toolkit
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h4>Education</h4>
+          <strong>Indian Institute of Technology (IIT) Goa</strong><br><span class="muted">M.Tech — VLSI & Signal Processing (2024 — Present)</span>
+          <hr style="border:none;height:1px;background:rgba(255,255,255,0.02);margin:10px 0">
+          <strong>Sinhgad Institute of Technology, Lonavala</strong><br><span class="muted">B.E. (Electronics & Telecommunications) (2017 — 2021), CGPA: 7.64</span>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h4>Teaching Assistantship</h4>
+          <strong>Data Communication Lab</strong><br>
+          <span class="muted">Guide: Prof. Neelakandan R, IIT Goa — Jul 2025 — Present</span>
+          <ul style="margin-top:8px;color:var(--muted)">
+            <li>Guided 40+ students during lab sessions</li>
+            <li>Troubleshot hardware/software issues and reduced downtime by 25%</li>
+            <li>Streamlined lab operations and equipment setup</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" aria-labelledby="research-h">
+    <div class="heading"><h3 id="research-h">Research — Master's Thesis</h3><div class="muted">Thesis details & guides</div></div>
+
+    <div class="card">
+      <h4>Smart Periodontal Probe Design with Embedded Sensors (2024 — Present)</h4>
+      <p class="muted">Guide: <a href="https://iitgoa.ac.in/EE-faculty-profile/?uid=bidhan&&exp=EE" target="_blank">Prof. Bidhan Pramanick, IIT Goa</a></p>
+      <ul style="color:var(--muted)">
+        <li>Designing a next-generation periodontal probe with integrated biomedical sensors</li>
+        <li>Implemented and validated signal processing techniques for gum depth and tissue response</li>
+        <li>Ergonomic design, usability, and low-power interfacing</li>
+        <li>Tools Used: COMSOL Multiphysics (CAD modeling)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- INTERNSHIPS -->
+  <section id="internships" aria-labelledby="intern-h">
+    <div class="heading"><h3 id="intern-h">Internships</h3><div class="muted">Professional training & certificates</div></div>
+
+    <div class="grid grid-3">
+      <article class="card">
+        <h4>Full-Stack Data Engineering Intern — Expertshub (Allahabad), 2021</h4>
+        <p class="muted">Built predictive models, performed sentiment analysis using Python and image recognition — improved classification accuracy by ~5%.</p>
+        <div class="meta">
+          <a class="chip" href="https://drive.google.com/file/d/1PaDA8GNBNo9oz4s1n2HWmjPq7mGfyA1q/view?usp=drive_link" target="_blank">Certificate</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h4>Cloud & Web Development Intern — Techmaniacs EduServices (Lonavala), 2021</h4>
+        <p class="muted">Developed web apps; deployed services on AWS; improved deployment overhead by 10%.</p>
+        <div class="meta">
+          <a class="chip" href="https://drive.google.com/file/d/12OJmTZhc63w5N4E7Uaoy4RINgrhYcdlX/view?usp=sharing" target="_blank">Certificate</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h4>IoT Intern — Expertshub (Bangalore), 2021</h4>
+        <p class="muted">Designed IoT applications and a Google Assistant–controlled robot (IFTTT integration); authored documentation.</p>
+        <div class="meta">
+          <a class="chip" href="https://drive.google.com/file/d/1-MNGpyulB0xdA_LGbrdYBkW6dwrMLh69/view?usp=sharing" target="_blank">Certificate</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- PROJECTS with PREVIEWS -->
+  <section id="projects" aria-labelledby="proj-h">
+    <div class="heading"><h3 id="proj-h">Projects & Demos</h3><div class="muted">Full list — click thumbnails to preview</div></div>
+
+    <div class="preview-grid">
+      <!-- Two-Stage Op-Amp -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Two-Stage Op Amp report" src="https://via.placeholder.com/800x450?text=Two-Stage+Op-Amp+Report">
+        <div class="preview-title">Two-Stage Operational Amplifier (Cadence) — 2025</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="pdf" data-src="https://drive.google.com/file/d/10CC3wbktR4xIl2RcnWR6hNXIcHR3kxba/preview">Preview report</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/10CC3wbktR4xIl2RcnWR6hNXIcHR3kxba/view?usp=drive_link" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- 4-bit Adder -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="4-bit adder" src="https://via.placeholder.com/800x450?text=4-bit+Adder+Report">
+        <div class="preview-title">4-bit Adder Design & Delay Analysis — 2025</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="pdf" data-src="https://drive.google.com/file/d/1Cdw3LvyKQMOdUotyFCbd3OcWxaECtX8w/preview">Preview report</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1Cdw3LvyKQMOdUotyFCbd3OcWxaECtX8w/view?usp=sharing" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- Energy Management -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Energy Management Paper" src="https://via.placeholder.com/800x450?text=Energy+Mgmt+Paper">
+        <div class="preview-title">Energy Management System (FSM, VHDL) — 2024</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="pdf" data-src="https://drive.google.com/file/d/1IkE3pg5pYinMhU8Zvc16eerZvwl0BFuM/preview">Preview paper</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1IkE3pg5pYinMhU8Zvc16eerZvwl0BFuM/view?usp=drive_link" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- NMOS Differential -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="NMOS Differential Amplifier" src="https://via.placeholder.com/800x450?text=NMOS+Differential+Report">
+        <div class="preview-title">NMOS Differential Amplifier — 2024</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="pdf" data-src="https://drive.google.com/file/d/1_xnIEbvrlEgLYreCSU4fnfWeDNyqbgpT/preview">Preview report</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1_xnIEbvrlEgLYreCSU4fnfWeDNyqbgpT/view?usp=drive_link" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- Audio Equalizer -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Audio Equalizer" src="https://via.placeholder.com/800x450?text=Audio+Equalizer+Demo">
+        <div class="preview-title">Audio Equalizer (TI DSP Kit) — 2024</div>
+        <div class="preview-links">
+          <a class="btn ghost" href="#" onclick="alert('No embedded file available — description only')">Details</a>
+        </div>
+      </div>
+
+      <!-- IoT Health Kit with presentation & video -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="IoT Health Monitoring" src="https://via.placeholder.com/800x450?text=IoT+Health+Monitoring">
+        <div class="preview-title">IoT-based Health Monitoring Kit — 2021</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="pdf" data-src="https://docs.google.com/presentation/d/1ynVMB_sp7J4Ney-QjEvU_pV0N0ECobLTJYY0qQPCFNM/preview">Preview slides</a>
+          <a class="btn" href="#" data-type="video" data-src="https://www.youtube.com/embed/unn3U9KADxM">Preview video</a>
+          <a class="btn ghost" href="https://docs.google.com/presentation/d/1ynVMB_sp7J4Ney-QjEvU_pV0N0ECobLTJYY0qQPCFNM/edit?usp=drive_link" target="_blank">Open slides</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1IkE3pg5pYinMhU8Zvc16eerZvwl0BFuM/view?usp=sharing" target="_blank">Certificate</a>
+        </div>
+      </div>
+
+      <!-- Drone (photo & article) -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Drone project" src="https://drive.google.com/uc?export=view&id=1u6EbWwe8wki_ug9GrHEG8MEeMmHGREtP" onerror="this.src='https://via.placeholder.com/800x450?text=Drone'">
+        <div class="preview-title">Drone (Arduino Uno) — 2018</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="img" data-src="https://drive.google.com/uc?export=view&id=1u6EbWwe8wki_ug9GrHEG8MEeMmHGREtP">View photo</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1u6EbWwe8wki_ug9GrHEG8MEeMmHGREtP/view" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- Army Rover -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Army Rover" src="https://via.placeholder.com/800x450?text=Army+Rover">
+        <div class="preview-title">Army Rover (Raspberry Pi) — 2020</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="img" data-src="https://drive.google.com/uc?export=view&id=1PxR5Tkv_ezDYQQ2PBLVoXgSbH7LEkygS">View photo</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1PxR5Tkv_ezDYQQ2PBLVoXgSbH7LEkygS/view" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- Smart Mirror -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Smart Mirror" src="https://drive.google.com/uc?export=view&id=1PwnMf52GprpdvbYBgjiS7qB60WEbvpn5" onerror="this.src='https://via.placeholder.com/800x450?text=Smart+Mirror'">
+        <div class="preview-title">Smart Mirror (Cloud IoT) — 2019</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="img" data-src="https://drive.google.com/uc?export=view&id=1PwnMf52GprpdvbYBgjiS7qB60WEbvpn5">View photo</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1PwnMf52GprpdvbYBgjiS7qB60WEbvpn5/view" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- Virtual Assistant -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Virtual Assistant Christopher" src="https://via.placeholder.com/800x450?text=Virtual+Assistant+Christopher">
+        <div class="preview-title">Virtual Assistant "Christopher" (Linux) — 2019</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="video" data-src="https://www.youtube.com/embed/VIDEO_ID_IF_AVAILABLE">Preview clip</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1PxR5Tkv_ezDYQQ2PBLVoXgSbH7LEkygS/view" target="_blank">Video link</a>
+        </div>
+      </div>
+
+      <!-- Google Assistant Bot -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="Google Assistant bot" src="https://via.placeholder.com/800x450?text=Google+Assistant+Bot">
+        <div class="preview-title">Google Assistant Controlled Bot (Arduino) — 2019</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="img" data-src="https://drive.google.com/uc?export=view&id=1PwnMf52GprpdvbYBgjiS7qB60WEbvpn5">View photo</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1PwnMf52GprpdvbYBgjiS7qB60WEbvpn5/view" target="_blank">Open link</a>
+        </div>
+      </div>
+
+      <!-- Misc / archive tile linking to many doc links -->
+      <div class="preview-tile">
+        <img class="preview-thumb" alt="More links" src="https://via.placeholder.com/800x450?text=Certificates+%26+Docs">
+        <div class="preview-title">All Documents & Certificates (archive)</div>
+        <div class="preview-links">
+          <a class="btn ghost" href="#certs">Open Certificates</a>
+          <a class="btn ghost" href="#achievements">Open Achievements</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOLUNTEER -->
+  <section id="volunteer" aria-labelledby="vol-h">
+    <div class="heading"><h3 id="vol-h">Volunteer & Outreach</h3><div class="muted">Workshops, MUN, mentoring</div></div>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <h4>Represented Republic of Panama — BITS Goa MUN (2025)</h4>
+        <p class="muted">United Nations Security Council. Debated Cabo Delgado crisis, illicit arms trade, counterterrorism strategies.</p>
+        <div style="margin-top:8px"><a class="btn" href="#" data-type="img" data-src="https://drive.google.com/uc?export=view&id=1ZQBFMiC5KPMK7w76z5JQsGOqGYnBl6ap">View certificate</a></div>
+      </div>
+
+      <div class="card">
+        <h4>Seminar on Electronics for School Students (2025, IIT Goa)</h4>
+        <p class="muted">Conducted interactive session for PM Shri Kendriya Vidyalaya, showcased mini drone.</p>
+        <div style="margin-top:8px"><a class="btn ghost" href="https://docs.google.com/document/d/1v_6rw0crdkrRy-8WTxlF3sElYoqRBZuUf4RwdyNbjew/edit?usp=drive_link" target="_blank">Photo / Doc</a></div>
+      </div>
+
+      <div class="card">
+        <h4>PCB Design & Soldering Workshop — IIT Goa (2025)</h4>
+        <p class="muted">Instructor & Speaker — Altium design and hands-on soldering exercises.</p>
+        <div style="margin-top:8px"><a class="btn" href="#" data-type="img" data-src="https://drive.google.com/uc?export=view&id=1k_ZxCjRIFgcEz219wHJ2d75IiYng5-0m">View photo</a></div>
+      </div>
+
+      <div class="card">
+        <h4>Yuvamanthan MUN — Represented Rahul Gandhi (Special Mention)</h4>
+        <p class="muted">All India Political Party Meet (2024) — Special Mention for impactful participation.</p>
+        <div style="margin-top:8px"><a class="btn ghost" href="https://drive.google.com/file/d/1aeoluMlTm7ixtyK7BIOfnwlaJh-TAlGW/view?usp=sharing" target="_blank">Certificate</a></div>
+      </div>
+
+      <div class="card">
+        <h4>Mentor — IoT CHALLENGE 2020 (SIT Lonavala)</h4>
+        <p class="muted">Mentored team of five students building Smart Mirrors (cloud & IoT).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section id="certs" aria-labelledby="certs-h">
+    <div class="heading"><h3 id="certs-h">Certificates & Workshops</h3><div class="muted">Clickable previews for many certs</div></div>
+
+    <div class="preview-grid">
+      <div class="preview-tile">
+        <div class="preview-title">Advanced Drone Technology (Air Taxi) — IIT Goa (2025)</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="pdf" data-src="https://drive.google.com/file/d/163dEe-27yernTddurdfHr138VIFcyvmV/preview">Preview</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/163dEe-27yernTddurdfHr138VIFcyvmV/view?usp=sharing" target="_blank">Open</a>
+        </div>
+      </div>
+
+      <div class="preview-tile">
+        <div class="preview-title">Google Cloud Certified Professional Cloud Architect (Coursera)</div>
+        <div class="preview-links">
+          <a class="btn ghost" href="https://coursera.org/share/2b4d1804dc9e3007ed79f6c5bae45502" target="_blank">Open</a>
+        </div>
+      </div>
+
+      <div class="preview-tile">
+        <div class="preview-title">Neural Network from Scratch in TensorFlow (Coursera)</div>
+        <div class="preview-links">
+          <a class="btn ghost" href="https://www.coursera.org/account/accomplishments/certificate/YYYYYY" target="_blank">Open (placeholder)</a>
+        </div>
+      </div>
+
+      <div class="preview-tile">
+        <div class="preview-title">Intel OpenVINO Toolkit for Computer Vision</div>
+        <div class="preview-links">
+          <a class="btn ghost" href="https://coursera.org/share/8221370556d4aaa6d7144d18d95ccade" target="_blank">Open</a>
+        </div>
+      </div>
+
+      <div class="preview-tile">
+        <div class="preview-title">ISRO — Application of Geoinformatics in Ecological Studies (2020)</div>
+        <div class="preview-links">
+          <a class="btn" href="#" data-type="pdf" data-src="https://drive.google.com/file/d/13DwZ4PSMJRZgF3SOknoHk8QsCDYxNUhM/preview">Preview</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/13DwZ4PSMJRZgF3SOknoHk8QsCDYxNUhM/view?usp=drivesdk" target="_blank">Open</a>
+        </div>
+      </div>
+
+      <div class="preview-tile">
+        <div class="preview-title">Microprocessor & Microcontroller Certifications (8085, ARM, 8051, 8086, COA)</div>
+        <div class="preview-links">
+          <a class="btn ghost" href="https://drive.google.com/file/d/1uiHurofOdG5-3WR7chmgl47mdLWBfMTc/view?usp=sharing" target="_blank">8085</a>
+          <a class="btn ghost" href="https://docs.google.com/document/d/1CdjYXE-UQlPGRouHttDSRa2FGW9XuQjgDDSTA9Xx-Fo/edit?usp=drive_link" target="_blank">ARM</a>
+        </div>
+      </div>
+
+      <div class="preview-tile">
+        <div class="preview-title">Cisco thingQbator & NASSCOM Foundation (PCB, Android, IoT)</div>
+        <div class="preview-links"><a class="btn ghost" href="https://docs.google.com/document/d/1r4aJPNY4SNgiSujWZ6MhSOxXmeKQxH1UxKuXhRHx-ZE/edit?usp=sharing" target="_blank">Open bundle</a></div>
+      </div>
+
+      <div class="preview-tile">
+        <div class="preview-title">PCB Design Workshop — SIT Lonavala (2018)</div>
+        <div class="preview-links"><a class="btn" href="#" data-type="pdf" data-src="https://drive.google.com/file/d/1dm7gFUf96paOthoxsGdLFfe0iJlX1pYN/preview">Preview</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements" aria-labelledby="ach-h">
+    <div class="heading"><h3 id="ach-h">Achievements</h3><div class="muted">Awards, rankings & recognitions</div></div>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <h4>2nd Place — Painting Competition, IIT Goa (Janjatiya Gaurav Divas), 2024</h4>
+        <p class="muted">Artwork celebrating Dr. B.R. Ambedkar — <a href="https://drive.google.com/file/d/19b0RGsokUCCyXkHC9Oy6OhAJELvp3gOm/view?usp=sharing" target="_blank">Certificate</a></p>
+      </div>
+
+      <div class="card">
+        <h4>GATE EC (2024)</h4>
+        <p class="muted">Score: 340/1000 — All India Rank: 9467 — <a href="https://drive.google.com/file/d/1VqPurKNzlJkbmwJwKhu9ojoDymHGDlJI/view?usp=sharing" target="_blank">Scorecard</a></p>
+      </div>
+
+      <div class="card">
+        <h4>TCS iON NQT — Cognitive & Psychometric (2023)</h4>
+        <p class="muted">Cognitive: 1101.32/1800 (61.18%) — <a href="https://drive.google.com/file/d/1rjYQjg6AAA40R0y6nS-hAmFOxSVc_fSY/view?usp=sharing" target="_blank">Scorecard</a> | <a href="https://drive.google.com/file/d/1BeqajUPTFzga4cu3T1rsBn6RBdsWio9A/view?usp=sharing" target="_blank">Report</a></p>
+      </div>
+
+      <div class="card">
+        <h4>TECHNOVATION 2K21 — State Level Project Presentation</h4>
+        <p class="muted"><a href="https://drive.google.com/file/d/1AtUt014h_hL5Hv5isYsAjPBMlhojaFDJ/view?usp=drive_link" target="_blank">Certificate</a></p>
+      </div>
+
+      <div class="card">
+        <h4>Elocution Competition — 1st Prize (SIT Lonavala, 2021)</h4>
+        <p class="muted"><a href="https://drive.google.com/file/d/1YWsF8isGq37Ab67xRekJLL4bEbxWYXYZ/view?usp=drive_link" target="_blank">Certificate</a></p>
+      </div>
+
+      <div class="card">
+        <h4>Mechatronics Day Project — 2nd Prize (2020)</h4>
+        <p class="muted"><a href="https://drive.google.com/file/d/19uze7O3MFekFSLNvaZAc5MepLn8qiePf/view?usp=sharing" target="_blank">Certificate</a></p>
+      </div>
+
+      <div class="card">
+        <h4>Model Mania Exhibition — 1st Prize (Sinhgad Tech Fest, 2019)</h4>
+        <p class="muted"><a href="https://docs.google.com/document/d/12Wz3aQiXWCIBDcug_nUtopPI6TJUkMb-MDQPC5ugpCo/edit?usp=drivesdk" target="_blank">Certificate</a></p>
+      </div>
+
+      <div class="card">
+        <h4>Featured in "Bytes of India" — Drone Project (2019)</h4>
+        <p class="muted"><a href="https://www.bytesofindia.com/P/WZQSCE" target="_blank">Article</a></p>
+      </div>
+
+      <div class="card">
+        <h4>Fashion Show — 1st Prize (Karandak 2019)</h4>
+        <p class="muted"><a href="https://drive.google.com/file/d/1_XWFNnwZAhMJgMFlwmYNuupeLSqXBsCV/view?usp=drive_link" target="_blank">Certificate</a> • <a href="https://youtu.be/5vvhvvwBD58?feature=shared" target="_blank">Video</a></p>
+      </div>
+
+      <div class="card">
+        <h4>Lab Innovation — Autonomous Arduino Car — 1st Prize (2018)</h4>
+        <p class="muted"><a href="https://drive.google.com/file/d/1ezia055oYthK2rAnrbpIff1yynKSdXFD/view?usp=drive_link" target="_blank">Certificate</a></p>
+      </div>
+
+      <div class="card">
+        <h4>All India Junior Painting Competition — Bharat Kala Kendra (2014)</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSEWORK & POSITIONS -->
+  <section id="course-pos" aria-labelledby="cp-h">
+    <div class="heading"><h3 id="cp-h">Coursework & Positions of Responsibility</h3><div class="muted">Academic courses & leadership</div></div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h4>Relevant Coursework</h4>
+        <ul style="color:var(--muted)">
+          <li>Analog IC Design, Digital IC Design, CMOS Circuits, DSP, Adaptive Filters</li>
+          <li>Machine Learning, Communication Systems, Sensors & Fabrication, SystemVerilog (UVM elective)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4>Positions of Responsibility</h4>
+        <ul style="color:var(--muted)">
+          <li>PG General Secretary, IIT Goa — Elected liaison for PG students (2025–26)</li>
+          <li>Core Team Member, Karandak Event, Sinhgad Institute — <a href="https://drive.google.com/file/d/1T5x7ozHj3nRWtQwt1nfHOeJ2p-oRtJyF/view?usp=drive_link" target="_blank">Certificate</a></li>
+          <li>Technical Team — SPARK Club (2019)</li>
+          <li>Technical Head — eSITizen Club & IEI Club (2018)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-h">
+    <div class="heading"><h3 id="contact-h">Contact & Social</h3><div class="muted">Reach out</div></div>
+
+    <div class="card">
+      <p class="muted">Email: <a href="mailto:praveen.saxena9889@gmail.com">praveen.saxena9889@gmail.com</a></p>
+      <p class="muted">Phone: <a href="tel:+918805440924">+91 8805440924</a></p>
+      <p class="muted">LinkedIn: <a href="https://www.linkedin.com/in/praveen-s-3b6b53a1" target="_blank">praveen-s-3b6b53a1</a> • GitHub: <a href="https://github.com/prspresent" target="_blank">prspresent</a></p>
+      <p class="muted">Resume PDF: <a href="resume_tex_template__1_(6).pdf" target="_blank">Download (local)</a> — (I detected your uploaded PDF; if you host the site, include it in repo.)</p>
+    </div>
+  </section>
+
+  <footer style="margin-top:18px;text-align:center;color:var(--muted)"><small>© Praveen Saxena • Portfolio — Generated: Sep 18, 2025</small></footer>
+</main>
+
+<!-- MODAL for previews -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong id="modal-title" style="color:var(--accent)"></strong>
+      <button id="modal-close" style="background:transparent;border:0;color:#fff;font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  // Smooth internal links
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const href=a.getAttribute('href');
+      if(href.startsWith('#')){ e.preventDefault(); const el=document.querySelector(href); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+
+  // Modal preview handling
+  const modal=document.getElementById('modal');
+  const modalBody=document.getElementById('modal-body');
+  const modalTitle=document.getElementById('modal-title');
+  const closeBtn=document.getElementById('modal-close');
+  function openModal(title, contentHtml){
+    modalTitle.textContent = title || '';
+    modalBody.innerHTML = contentHtml;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    modalBody.innerHTML='';
+    document.body.style.overflow='';
+  }
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (ev)=>{ if(ev.target === modal) closeModal(); });
+  document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeModal(); });
+
+  // Wire up preview buttons (data-type, data-src)
+  document.querySelectorAll('.preview-links .btn').forEach(btn=>{
+    const type = btn.getAttribute('data-type');
+    const src = btn.getAttribute('data-src');
+    if(!type || !src) return;
+    btn.addEventListener('click', (ev)=>{
+      ev.preventDefault();
+      if(type === 'pdf'){
+        // Drive/Google preview uses /preview
+        openModal('Document preview', `<div class="iframe-wrap"><iframe src="${src}" loading="lazy"></iframe></div>`);
+      } else if(type === 'img'){
+        openModal('Image preview', `<img alt="Preview image" src="${src}" loading="lazy">`);
+      } else if(type === 'video'){
+        // src should be embeddable (youtube embed link)
+        openModal('Video preview', `<iframe src="${src}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`);
+      } else {
+        alert('Unknown preview type');
+      }
+    });
+  });
+
+  // Also wire up individual preview buttons in the certificates/projects sections
+  document.querySelectorAll('[data-type]').forEach(el=>{
+    // skip ones already wired (buttons above)
+  });
+
+  // Basic accessibility: focus trap minimal
+  document.getElementById('modal-close').addEventListener('keydown', (ev)=>{ if(ev.key === 'Tab') ev.preventDefault(); });
+
+  // Helpful note if Drive preview blocked: show message in modal
+  // (This isn't automatic — if Drive requires login, the iframe will show Google sign-in.)
+</script>
+
+</body>
+</html>
