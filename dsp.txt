@@ -1,0 +1,139 @@
+#include "stm32f7_wm8994_init.h"
+#include "stm32f7_display.h"
+#include <math.h>
+
+#define M_PI 3.14159265358979323846
+#define SOURCE_FILE_NAME "stm32f7_loop_intr.c"
+
+// Global audio samples
+extern int16_t rx_sample_L, rx_sample_R;
+extern int16_t tx_sample_L, tx_sample_R;
+
+// Equalizer gains
+float bass_gain   = 1.0f;  // Low freq
+float mid_gain    = 1.0f;  // Mid freq
+float treble_gain = 1.0f;  // High freq
+
+// --- Filter structure ---
+typedef struct {
+    float b0, b1, b2, a1, a2;
+    float x[2]; // previous inputs
+    float y[2]; // previous outputs
+} BiquadFilter;
+
+// Function to init filter coefficients
+void butterworth_lowpass(BiquadFilter *f, float cutoff, float fs);
+void butterworth_highpass(BiquadFilter *f, float cutoff, float fs);
+
+// Apply one filter step
+static inline float biquad_apply(BiquadFilter *f, float input) {
+    float out = f->b0*input + f->b1*f->x[0] + f->b2*f->x[1]
+              - f->a1*f->y[0] - f->a2*f->y[1];
+    f->x[1] = f->x[0]; f->x[0] = input;
+    f->y[1] = f->y[0]; f->y[0] = out;
+    return out;
+}
+
+// --- Filters per band & channel ---
+BiquadFilter bass_L, bass_R;
+BiquadFilter mid_L,  mid_R;
+BiquadFilter treb_L, treb_R;
+
+// Design functions
+void butterworth_lowpass(BiquadFilter *f, float cutoff, float fs) {
+    float w0 = 2*M_PI*cutoff/fs;
+    float alpha = sin(w0)/(2*sqrtf(2));
+    float cosw0 = cos(w0);
+
+    float a0 = 1 + alpha;
+    f->b0 = (1 - cosw0)/2 / a0;
+    f->b1 = (1 - cosw0) / a0;
+    f->b2 = (1 - cosw0)/2 / a0;
+    f->a1 = -2*cosw0 / a0;
+    f->a2 = (1 - alpha) / a0;
+}
+
+void butterworth_highpass(BiquadFilter *f, float cutoff, float fs) {
+    float w0 = 2*M_PI*cutoff/fs;
+    float alpha = sin(w0)/(2*sqrtf(2));
+    float cosw0 = cos(w0);
+
+    float a0 = 1 + alpha;
+    f->b0 =  (1 + cosw0)/2 / a0;
+    f->b1 = -(1 + cosw0)    / a0;
+    f->b2 =  (1 + cosw0)/2 / a0;
+    f->a1 = -2*cosw0 / a0;
+    f->a2 = (1 - alpha) / a0;
+}
+
+// Mid band: LPF(high cutoff) - LPF(low cutoff)
+float bandpass_apply(BiquadFilter *lowF, BiquadFilter *highF, float input) {
+    float low = biquad_apply(lowF, input);
+    float high = biquad_apply(highF, input);
+    return low - high;
+}
+
+// Equalizer core
+void ApplyEqualizer(int16_t *sL, int16_t *sR) {
+    float inL = (float)(*sL);
+    float inR = (float)(*sR);
+
+    float bass_out_L = biquad_apply(&bass_L, inL) * bass_gain;
+    float bass_out_R = biquad_apply(&bass_R, inR) * bass_gain;
+
+    float treble_out_L = biquad_apply(&treb_L, inL) * treble_gain;
+    float treble_out_R = biquad_apply(&treb_R, inR) * treble_gain;
+
+    float mid_out_L = bandpass_apply(&mid_L, &bass_L, inL) * mid_gain;
+    float mid_out_R = bandpass_apply(&mid_R, &bass_R, inR) * mid_gain;
+
+    float outL = bass_out_L + mid_out_L + treble_out_L;
+    float outR = bass_out_R + mid_out_R + treble_out_R;
+
+    // Clamp to int16
+    if (outL > 32767) outL = 32767;
+    if (outL < -32768) outL = -32768;
+    if (outR > 32767) outR = 32767;
+    if (outR < -32768) outR = -32768;
+
+    *sL = (int16_t)outL;
+    *sR = (int16_t)outR;
+}
+
+// Callback
+void BSP_AUDIO_SAI_Interrupt_CallBack() {
+    ApplyEqualizer(&rx_sample_L, &rx_sample_R);
+    tx_sample_L = rx_sample_L;
+    tx_sample_R = rx_sample_R;
+    BSP_LED_Toggle(LED1);
+}
+
+int main(void) {
+    float fs = 48000.0f;
+
+    // Init filters
+    butterworth_lowpass(&bass_L, 200.0f, fs);
+    butterworth_lowpass(&bass_R, 200.0f, fs);
+
+    butterworth_highpass(&treb_L, 5000.0f, fs);
+    butterworth_highpass(&treb_R, 5000.0f, fs);
+
+    butterworth_lowpass(&mid_L, 3000.0f, fs);
+    butterworth_lowpass(&mid_R, 3000.0f, fs);
+
+    stm32f7_wm8994_init(AUDIO_FREQUENCY_48K,
+                        IO_METHOD_INTR,
+                        INPUT_DEVICE_INPUT_LINE_1,
+                        OUTPUT_DEVICE_HEADPHONE,
+                        WM8994_HP_OUT_ANALOG_GAIN_0DB,
+                        WM8994_LINE_IN_GAIN_0DB,
+                        WM8994_DMIC_GAIN_17DB,
+                        SOURCE_FILE_NAME,
+                        NOGRAPH);
+
+    while (1) {
+        bass_gain   = 1.5f;
+        mid_gain    = 1.0f;
+        treble_gain = 1.2f;
+    }
+}
