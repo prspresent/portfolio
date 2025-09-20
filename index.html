@@ -80,8 +80,13 @@
         <a class="btn" target="_blank" href="https://www.linkedin.com/in/praveen-s-3b6b53a1">LinkedIn</a>
         <a class="btn" target="_blank" href="https://github.com/prspresent">GitHub</a>
         <button id="downloadTexBtn" style="padding:10px 20px; font-size:16px; cursor:pointer;">
-  Download Resume
+  Download LaTeX  Resume
 </button>
+        <a href="https://github.com/prspresent/portfolio/raw/master/YourResume.pdf" download>
+  <button style="padding:10px 20px; font-size:16px; cursor:pointer; margin-left:10px;">
+    Download PDF Resume
+  </button>
+</a>
       </div>
       <nav>
         <a href="#education">Education</a>
@@ -998,17 +1003,28 @@ aside .tag[style*="background:gold"] {
 % ... (full LaTeX source inserted here by assistant)
 % NOTE: If you want the complete .tex exactly as provided, you can open the LaTeX file you already have and paste it into this file replacement.
 `;
+<script>
+  // Minimal .tex download functionality
+  const texContent = `
+\\documentclass[10pt]{extarticle}
+% Example LaTeX content
+\\begin{document}
+Hello, this is a test LaTeX resume.
+\\end{document}
+`;
 
-document.addEventListener('DOMContentLoaded', function(){
-  const texContent = `%% LaTeX resume source ...`;
-  document.getElementById('downloadTexBtn').addEventListener('click', ()=>{
-    const blob = new Blob([texContent], {type:'text/x-tex'});
+  const btn = document.getElementById('downloadTexBtn');
+  btn.addEventListener('click', function() {
+    const blob = new Blob([texContent], { type: 'text/x-tex' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = 'Praveen_Saxena_Resume.tex';
-    document.body.appendChild(a); a.click(); a.remove();
+    a.href = url;
+    a.download = 'Praveen_Saxena_Resume.tex';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url); // cleanup
   });
-});
 
 
   // --- Smooth scroll for nav links ---
@@ -1036,6 +1052,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 </body>
 </html>
+
 
 
 
