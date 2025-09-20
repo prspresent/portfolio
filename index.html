@@ -1009,24 +1009,23 @@ aside .tag[style*="background:gold"] {
 });
 
   // --- Smooth scroll for nav links ---
-  document.querySelectorAll('nav a').forEach(a => {
-    a.addEventListener('click', e => {
+  // Smooth scroll nav
+  document.querySelectorAll('nav a').forEach(a=>{
+    a.addEventListener('click', e=>{
       e.preventDefault();
-      document.querySelector(a.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});
     });
   });
 
-  // --- Make media cards clickable if they contain links ---
-  document.querySelectorAll('.media-card, .card').forEach(el => {
-    const innerLink = el.querySelector('a');
-    if (!innerLink) {
-      const metaLink = el.querySelector('.meta a');
-      if (metaLink) {
-        el.style.cursor = 'pointer';
-        el.addEventListener('click', () => window.open(metaLink.href, '_blank'));
+  // Make drive thumbnails clickable/open
+  document.querySelectorAll('.media-card, .card').forEach(el=>{
+    const link = el.querySelector('a');
+    if(!link){
+      // if inner anchor present do nothing; else, find any anchor in meta
+      const a = el.querySelector('.meta a');
+      if(a){
+        el.style.cursor='pointer';
+        el.addEventListener('click', ()=> window.open(a.href,'_blank'));
       }
     }
   });
@@ -1034,6 +1033,7 @@ aside .tag[style*="background:gold"] {
 
 </body>
 </html>
+
 
 
 
