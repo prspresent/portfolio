@@ -998,12 +998,15 @@ aside .tag[style*="background:gold"] {
 % NOTE: If you want the complete .tex exactly as provided, you can open the LaTeX file you already have and paste it into this file replacement.
 `;
 
- document.getElementById('downloadTexBtn').addEventListener('click', ()=>{
-  const blob = new Blob([texContent], {type:'text/x-tex'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'Praveen_Saxena_Resume.tex';
-  document.body.appendChild(a); a.click(); a.remove();
+document.addEventListener('DOMContentLoaded', function(){
+  const texContent = `%% LaTeX resume source ...`;
+  document.getElementById('downloadTexBtn').addEventListener('click', ()=>{
+    const blob = new Blob([texContent], {type:'text/x-tex'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'Praveen_Saxena_Resume.tex';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
 });
 
 
@@ -1032,6 +1035,7 @@ aside .tag[style*="background:gold"] {
 
 </body>
 </html>
+
 
 
 
