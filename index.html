@@ -998,15 +998,14 @@ aside .tag[style*="background:gold"] {
 % NOTE: If you want the complete .tex exactly as provided, you can open the LaTeX file you already have and paste it into this file replacement.
 `;
 
- document.getElementById('downloadResumeBtn').addEventListener('click', function() {
+ document.getElementById('downloadTexBtn').addEventListener('click', ()=>{
+  const blob = new Blob([texContent], {type:'text/x-tex'});
+  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = 'https://raw.githubusercontent.com/prspresent/portfolio/master/RESUME_1L%20(1).pdf';
-  a.download = 'Praveen_Saxena_Resume.pdf';
-  a.target = '_blank';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  a.href = url; a.download = 'Praveen_Saxena_Resume.tex';
+  document.body.appendChild(a); a.click(); a.remove();
 });
+
 
   // --- Smooth scroll for nav links ---
   // Smooth scroll nav
@@ -1033,6 +1032,7 @@ aside .tag[style*="background:gold"] {
 
 </body>
 </html>
+
 
 
 
