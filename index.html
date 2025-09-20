@@ -994,15 +994,15 @@ aside .tag[style*="background:gold"] {
   }
 
   // --- Download Resume ---
-  document.getElementById('downloadResumeBtn').addEventListener('click', () => {
-    const resumeUrl = 'https://raw.githubusercontent.com/prspresent/portfolio/master/RESUME_1L%20(1).pdf';
-    const a = document.createElement('a');
-    a.href = resumeUrl;
-    a.download = 'Praveen_Saxena_Resume.pdf';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  });
+ document.getElementById('downloadResumeBtn').addEventListener('click', function() {
+  const a = document.createElement('a');
+  a.href = 'https://raw.githubusercontent.com/prspresent/portfolio/master/RESUME_1L%20(1).pdf';
+  a.download = 'Praveen_Saxena_Resume.pdf';
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
 
   // --- Smooth scroll for nav links ---
   document.querySelectorAll('nav a').forEach(a => {
@@ -1027,8 +1027,10 @@ aside .tag[style*="background:gold"] {
     }
   });
 </script>
+
 </body>
 </html>
+
 
 
 
