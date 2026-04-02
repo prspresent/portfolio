@@ -679,20 +679,25 @@
 <section id="achievements">
   <h2 style="color:var(--accent); margin-bottom:20px;">Achievements</h2>
 
-  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
-    
-    <!-- Top 4 Achievements -->
-    <!-- Vigilance Awareness Week Poster -->
-    <div class="card">
-  <img src="altium_ambassador.PNG" 
-       alt="Altium Ambassador Logo" 
-       style="width:100%; height:160px; object-fit:contain; background:white; padding:10px;">
+  <div class="card" style="display:flex; flex-direction:column; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition:transform 0.2s ease;" 
+     onmouseover="this.style.transform='translateY(-5px)'" 
+     onmouseout="this.style.transform='none'">
+  
+  <img src="altium_ambassador.PNG"
+       alt="Altium Student Ambassador"
+       style="width:100%; height:180px; object-fit:contain; background:white; padding:10px;">
 
   <div class="meta" style="padding:15px;">
-    <h3>🌍 Altium Student Ambassador — Global Program</h3>
-    <p style="color:var(--muted);">
-      Selected among <strong>14 students globally</strong> from 
-      <strong>14 institutions across 3 countries</strong>.
+    <h3 style="margin:0 0 6px; font-size:16px;">
+      🌍 Altium Student Ambassador — Global Program
+    </h3>
+
+    <p style="margin:0; font-size:14px; color:var(--muted); line-height:1.4;">
+      Selected among <strong>14 students globally</strong> representing 
+      <strong>14 institutions across 3 countries</strong>.<br><br>
+
+      Leading initiatives at IIT Goa to promote <strong>PCB design, electronics, and IoT</strong> 
+      through workshops, projects, and interdisciplinary collaboration.
     </p>
   </div>
 </div>
