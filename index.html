@@ -78,14 +78,18 @@
       <!-- Badge + Ambassador text row -->
      <div style="margin-top:12px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
 
-  <div style="
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
-    flex-shrink: 0;
-  ">
+ <div style="
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+"
+onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px rgba(30,144,255,0.4)'"
+onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
   <div style="
   position: absolute;
   top: -25px;
