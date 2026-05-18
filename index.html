@@ -30,6 +30,17 @@
   .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600;}
   nav{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;}
   nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.02);font-weight:600;}
+nav a:hover{
+  color:#fff;
+  background:rgba(30,144,255,0.12);
+  border-color:rgba(30,144,255,0.3);
+}
+nav a{
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+  
+  
+  
   main{margin-top:18px;display:grid;grid-template-columns: 1fr 360px; gap:20px;}
   .left{background:transparent;padding:12px;border-radius:10px;}
   .section{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:16px;border-radius:10px;margin-bottom:16px;border:1px solid rgba(255,255,255,0.02);}
