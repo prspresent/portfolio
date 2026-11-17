@@ -93,83 +93,77 @@ margin-top:12px;
 display:flex;
 align-items:center;
 justify-content:flex-start;
-gap:18px;
-flex-wrap:wrap;
+gap:16px;
+flex-wrap:nowrap;
 ">
 
-<!-- Original Altium Student Ambassador Badge -->
+<!-- Badge 1: Altium Student Ambassador -->
 <div style="
-width:150px;
-height:270px;
-flex:0 0 150px;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-transition:transform 0.2s ease;
+width:110px;
+height:110px;
+border-radius:50%;
+overflow:hidden;
+position:relative;
+flex-shrink:0;
+transition:transform 0.2s ease, box-shadow 0.2s ease;
+cursor:pointer;
 "
-onmouseover="this.style.transform='scale(1.04)'"
-onmouseout="this.style.transform='scale(1)'">
+onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px rgba(30,144,255,0.4)'"
+onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
 
-<div data-iframe-width="150"
-data-iframe-height="270"
+<div style="position:absolute; top:-25px; left:-20px; width:150px; height:270px;">
+<div data-iframe-width="150" data-iframe-height="270"
 data-share-badge-id="a7419476-5b5d-4bb0-b03d-43946e312670"
-data-share-badge-host="https://www.credly.com">
+data-share-badge-host="https://www.credly.com"></div>
 </div>
 </div>
 
-<!-- Altium PCB Design Badge -->
+<!-- Badge 2: PCB Design -->
 <a href="https://www.credly.com/badges/f081fe14-f148-4efd-9885-89e55f043481/public_url"
-target="_blank"
-rel="noopener noreferrer"
-style="
-width:150px;
-height:270px;
-flex:0 0 150px;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-text-decoration:none;
-transition:transform 0.2s ease;
-"
-onmouseover="this.style.transform='scale(1.04)'"
-onmouseout="this.style.transform='scale(1)'">
+target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
 
-<div data-iframe-width="150"
-data-iframe-height="270"
-data-share-badge-id="f081fe14-f148-4efd-9885-89e55f043481"
-data-share-badge-host="https://www.credly.com">
-</div>
-</a>
-
-<!-- Altium Basic Embedded Design Badge -->
-<a href="https://www.credly.com/badges/83bb202a-f900-4317-bb6d-b186b26a69e1/public_url"
-target="_blank"
-rel="noopener noreferrer"
-style="
-width:150px;
-height:270px;
-flex:0 0 150px;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-text-decoration:none;
-transition:transform 0.2s ease;
-"
-onmouseover="this.style.transform='scale(1.04)'"
-onmouseout="this.style.transform='scale(1)'">
-
-<div data-iframe-width="150"
-data-iframe-height="270"
-data-share-badge-id="83bb202a-f900-4317-bb6d-b186b26a69e1"
-data-share-badge-host="https://www.credly.com">
-</div>
-</a>
-
-<!-- Altium Ambassador Information -->
 <div style="
-flex:1 1 280px;
-min-width:250px;
-padding:10px 0;
+width:110px; height:110px;
+border-radius:50%; overflow:hidden;
+position:relative; flex-shrink:0;
+transition:transform 0.2s ease, box-shadow 0.2s ease;
+"
+onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px rgba(30,144,255,0.4)'"
+onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+
+<div style="position:absolute; top:-25px; left:-20px; width:150px; height:270px;">
+<div data-iframe-width="150" data-iframe-height="270"
+data-share-badge-id="f081fe14-f148-4efd-9885-89e55f043481"
+data-share-badge-host="https://www.credly.com"></div>
+</div>
+</div>
+</a>
+
+<!-- Badge 3: Basic Embedded Design -->
+<a href="https://www.credly.com/badges/83bb202a-f900-4317-bb6d-b186b26a69e1/public_url"
+target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+
+<div style="
+width:110px; height:110px;
+border-radius:50%; overflow:hidden;
+position:relative; flex-shrink:0;
+transition:transform 0.2s ease, box-shadow 0.2s ease;
+"
+onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px rgba(30,144,255,0.4)'"
+onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+
+<div style="position:absolute; top:-25px; left:-20px; width:150px; height:270px;">
+<div data-iframe-width="150" data-iframe-height="270"
+data-share-badge-id="83bb202a-f900-4317-bb6d-b186b26a69e1"
+data-share-badge-host="https://www.credly.com"></div>
+</div>
+</div>
+</a>
+
+<!-- Ambassador Information -->
+<div style="
+flex:1;
+min-width:0;
 font-size:16px;
 font-weight:600;
 color:var(--muted);
@@ -178,19 +172,13 @@ line-height:1.9;
 <div style="font-size:19px;">
 Altium Student Ambassador — Global Program
 </div>
-
-<div>
-14 students • 14 institutions • 3 countries
-</div>
-
-<div>
-PCB Design • Embedded Systems • Altium Designer
-</div>
+<div>14 students • 14 institutions • 3 countries</div>
+<div>PCB Design • Embedded Systems • Altium Designer</div>
 </div>
 
 </div>
 
-<!-- Credly Embed Script: Include only once in the entire HTML -->
+<!-- Credly Embed Script: Include only once in HTML -->
 <script type="text/javascript" async
 src="https://cdn.credly.com/assets/utilities/embed.js">
 </script>
