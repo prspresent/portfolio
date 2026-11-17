@@ -84,44 +84,115 @@ nav a{
 
     <div class="header-info">
       <h1 class="name">Praveen Saxena</h1>
-      <div class="sub">M.Tech (VLSI and Signal Processing) — Indian Institute of Technology, Goa — 2<sup>nd</sup> Year</div>
+      <div class="sub"> Post Graduate Engineer Trainee (PGET) — 
+        Daikin Airconditioning India Pvt. Ltd. — YPDP 2026</div>
 
       <!-- Badge + Ambassador text row -->
      <div style="margin-top:12px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
 
- <div style="
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+<!-- Credly Badges + Altium Ambassador -->
+<div style="margin-top:12px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+
+<!-- Original Google Cloud Badge -->
+<div style="
+width:110px;
+height:110px;
+border-radius:50%;
+overflow:hidden;
+position:relative;
+flex-shrink:0;
+transition:transform 0.2s ease, box-shadow 0.2s ease;
+cursor:pointer;
 "
 onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px rgba(30,144,255,0.4)'"
 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
-  <div style="
-  position: absolute;
-  top: -25px;
-  left: -20px;
-  width: 150px;
-  height: 270px;
-  cursor: pointer;
+
+<div style="
+position:absolute;
+top:-25px;
+left:-20px;
+width:150px;
+height:270px;
 ">
-      <div data-iframe-width="150" data-iframe-height="270" 
-           data-share-badge-id="a7419476-5b5d-4bb0-b03d-43946e312670" 
-           data-share-badge-host="https://www.credly.com"></div>
-      <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
-    </div>
-  </div>
+<div data-iframe-width="150"
+data-iframe-height="270"
+data-share-badge-id="a7419476-5b5d-4bb0-b03d-43946e312670"
+data-share-badge-host="https://www.credly.com">
+</div>
+</div>
+</div>
 
-        <div style="padding-top:8px; font-size:14px; font-weight:600; color:var(--muted); line-height:1.6;">
-          🌍 Altium Student Ambassador — Global Program <br>
-          <span style="font-size:12px;">14 students • 14 institutions • 3 countries</span>
-        </div>
+<!-- Altium PCB Design Badge -->
+<a href="https://www.credly.com/badges/f081fe14-f148-4efd-9885-89e55f043481/public_url"
+target="_blank"
+rel="noopener noreferrer"
+style="text-decoration:none;">
+<div style="
+width:110px;
+height:110px;
+border-radius:50%;
+overflow:hidden;
+transition:transform 0.2s ease;
+"
+onmouseover="this.style.transform='scale(1.08)'"
+onmouseout="this.style.transform='scale(1)'">
 
-      </div>
+<div data-iframe-width="150"
+data-iframe-height="270"
+data-share-badge-id="f081fe14-f148-4efd-9885-89e55f043481"
+data-share-badge-host="https://www.credly.com">
+</div>
+</div>
+</a>
+
+<!-- Altium Embedded Design Badge -->
+<a href="https://www.credly.com/badges/83bb202a-f900-4317-bb6d-b186b26a69e1/public_url"
+target="_blank"
+rel="noopener noreferrer"
+style="text-decoration:none;">
+<div style="
+width:110px;
+height:110px;
+border-radius:50%;
+overflow:hidden;
+transition:transform 0.2s ease;
+"
+onmouseover="this.style.transform='scale(1.08)'"
+onmouseout="this.style.transform='scale(1)'">
+
+<div data-iframe-width="150"
+data-iframe-height="270"
+data-share-badge-id="83bb202a-f900-4317-bb6d-b186b26a69e1"
+data-share-badge-host="https://www.credly.com">
+</div>
+</div>
+</a>
+
+<!-- Altium Ambassador Information -->
+<div style="
+padding-top:8px;
+font-size:14px;
+font-weight:600;
+color:var(--muted);
+line-height:1.7;
+">
+Altium Student Ambassador — Global Program
+<br>
+<span style="font-size:12px;">
+14 students • 14 institutions • 3 countries
+</span>
+<br>
+<span style="font-size:12px;">
+PCB Design • Embedded Systems • Altium Designer
+</span>
+</div>
+
+</div>
+
+<!-- Credly Embed Script: Load only once on the page -->
+<script type="text/javascript" async
+src="https://cdn.credly.com/assets/utilities/embed.js">
+</script>
       <!-- END badge row -->
 
       <div class="quick-links" style="margin-top:12px;">
@@ -1931,7 +2002,7 @@ aside .tag[style*="background:gold"] {
 % NOTE: If you want the complete .tex exactly as provided, you can open the LaTeX file you already have and paste it into this file replacement.
 `;
 <script>
-  // Minimal .tex download functionality
+  // LaTeX resume download functionality
   const texContent = `
 \\documentclass[10pt]{extarticle}
 % Example LaTeX content
@@ -1941,38 +2012,51 @@ Hello, this is a test LaTeX resume.
 `;
 
   const btn = document.getElementById('downloadTexBtn');
-  btn.addEventListener('click', function() {
-    const blob = new Blob([texContent], { type: 'text/x-tex' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Praveen_Saxena_Resume.tex';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url); // cleanup
-  });
 
+  if (btn) {
+    btn.addEventListener('click', function () {
+      const blob = new Blob([texContent], { type: 'text/x-tex' });
+      const url = URL.createObjectURL(blob);
 
-  // --- Smooth scroll for nav links ---
-  // Smooth scroll nav
-  document.querySelectorAll('nav a').forEach(a=>{
-    a.addEventListener('click', e=>{
-      e.preventDefault();
-      document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Praveen_Saxena_Resume.tex';
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  // Smooth scroll for navigation links
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     });
   });
 
-  // Make drive thumbnails clickable/open
-  document.querySelectorAll('.media-card, .card').forEach(el=>{
-    const link = el.querySelector('a');
-    if(!link){
-      // if inner anchor present do nothing; else, find any anchor in meta
-      const a = el.querySelector('.meta a');
-      if(a){
-        el.style.cursor='pointer';
-        el.addEventListener('click', ()=> window.open(a.href,'_blank'));
-      }
+  // Make media cards clickable
+  document.querySelectorAll('.media-card, .card').forEach(el => {
+    const link = el.querySelector('.meta a');
+
+    if (link) {
+      el.style.cursor = 'pointer';
+
+      el.addEventListener('click', e => {
+        if (!e.target.closest('a')) {
+          window.open(link.href, '_blank');
+        }
+      });
     }
   });
 </script>
